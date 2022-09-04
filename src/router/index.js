@@ -10,17 +10,7 @@ const routes = [
   },
   {
     path: '/farmer',
-    component: () => import('../components/layout/Layout.vue'),
-    children: [
-      {
-        path: 'user_manage',
-        component: () => import('../views/UserManageView.vue')
-      },
-      {
-        path: 'products',
-        component: () => import('../views/ProductView.vue')
-      }
-    ]
+    component: () => import('../views/HomeView.vue')
   }
 ]
 
