@@ -49,10 +49,20 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
+                                    <v-col class="d-flex justify-center ma-0 pa-0">
+                                        <h1
+                                            class="alertFont"
+                                            v-show="true"
+                                        >
+                                        {{ alert }}</h1>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
                                     <v-col class="px-0">
                                         <v-text-field
                                             hide-details
                                             prepend-inner-icon="mdi-email"
+                                            v-model="email"
                                             name="email"
                                             placeholder="Email"
                                             type="email"
@@ -65,6 +75,7 @@
                                         <v-text-field
                                             hide-details
                                             prepend-inner-icon="mdi-account"
+                                            v-model="username"
                                             name="username"
                                             placeholder="Username"
                                             type="text"
@@ -75,23 +86,15 @@
                                 <v-row>
                                     <v-col class="px-0">
                                         <v-text-field
+                                            ref="password"
+                                            v-model="password"
                                             hide-details
                                             prepend-inner-icon="mdi-lock"
+                                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                            @click:append="showPassword=!showPassword"
                                             name="password"
                                             placeholder="Password"
-                                            type="password"
-                                            outlined
-                                        ></v-text-field>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col class="px-0">
-                                        <v-text-field
-                                            hide-details
-                                            prepend-inner-icon="mdi-lock"
-                                            name="re-password"
-                                            placeholder="Re-password"
-                                            type="password"
+                                            :type="showPassword ? 'text' : 'password'"
                                             outlined
                                         ></v-text-field>
                                     </v-col>
@@ -99,6 +102,7 @@
                                 <v-row>
                                     <v-col class="d-flex justify-center pt-0">
                                         <v-checkbox
+                                            v-model="checkbox"
                                             hide-details
                                             label="I agree to the Privacy Policy"
                                             color="green"
@@ -113,7 +117,8 @@
                                             height="50px"
                                             elevation="3"
                                             block
-                                            disabled
+                                            :disabled="!checkbox"
+                                            @click="register"
                                         >
                                             Register
                                         </v-btn>
@@ -136,8 +141,41 @@
 </template>
 
 <script>
-export default {
 
+const { axios } = require('../axios')
+
+export default {
+  data: () => ({
+    checkbox: false,
+    username: '',
+    email: '',
+    password: '',
+    showPassword: false,
+    alertShow: false,
+    alert: ''
+  }),
+  methods: {
+    register () {
+      axios.post('/register/user', {
+        credential: {
+          user: this.username,
+          pass: this.password
+        },
+        addr: null,
+        job: null,
+        role: {
+          role: ''
+        },
+        fname: '',
+        lname: ''
+      }).then((response) => {
+        this.$router.push({ name: 'login' })
+      }).catch((error) => {
+        this.alert = 'Fill out the information completely!'
+        console.log(error)
+      })
+    }
+  }
 }
 </script>
 
@@ -164,6 +202,13 @@ export default {
         line-height: 47px;
     }
     .forgotFont {
+        font-family: 'Lemon', cursive;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 12px;
+        line-height: 28px;
+    }
+    .alertFont {
         font-family: 'Lemon', cursive;
         font-style: normal;
         font-weight: 800;
