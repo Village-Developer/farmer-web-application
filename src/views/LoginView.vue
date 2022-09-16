@@ -33,7 +33,10 @@
                         min-width="450"
                         elevation="2"
                     >
-                        <v-form>
+                        <v-form
+                            ref="form"
+                            lazy-validation
+                        >
                             <v-container
                                 class="px-16"
                             >
@@ -49,13 +52,23 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
+                                    <v-col class="d-flex justify-center ma-0 pa-0">
+                                        <h1
+                                            class="alertFont"
+                                            v-show="alertShow"
+                                        >
+                                        {{ alert }}</h1>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
                                     <v-col class="px-0">
                                         <v-text-field
+                                            v-model="username"
                                             hide-details
-                                            prepend-inner-icon="mdi-email"
-                                            name="email"
-                                            placeholder="Email"
-                                            type="email"
+                                            prepend-inner-icon="mdi-account"
+                                            name="username"
+                                            placeholder="Username"
+                                            type="text"
                                             outlined
                                         ></v-text-field>
                                     </v-col>
@@ -63,12 +76,15 @@
                                 <v-row>
                                     <v-col class="px-0">
                                         <v-text-field
+                                            ref="password"
+                                            v-model="password"
                                             hide-details
                                             prepend-inner-icon="mdi-lock"
-                                            append-icon="mdi-eye"
+                                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                            @click:append="showPassword=!showPassword"
                                             name="password"
                                             placeholder="Password"
-                                            type="password"
+                                            :type="showPassword ? 'text' : 'password'"
                                             outlined
                                         ></v-text-field>
                                     </v-col>
@@ -76,12 +92,12 @@
                                 <v-row>
                                     <v-col class="px-0">
                                         <v-btn
-                                            href="/farmer/api-document"
                                             class="btnFormFont"
                                             color="success"
                                             height="50px"
                                             elevation="5"
                                             block
+                                            @click="login"
                                         >
                                             Login
                                         </v-btn>
@@ -118,8 +134,39 @@
 </template>
 
 <script>
-export default {
 
+const { axios } = require('../axios')
+
+export default {
+  data: () => ({
+    valid: true,
+    username: '',
+    password: '',
+    alertShow: false,
+    alert: '',
+    showPassword: false
+  }),
+  methods: {
+    login () {
+      axios.post('/auth/login', {
+        username: this.username,
+        password: this.password
+      }).then((response) => {
+        localStorage.setItem('token', response.data.accToken)
+        this.$router.push({ name: 'api-document' })
+      }).catch((error) => {
+        // eslint-disable-next-line eqeqeq
+        if (error == 'AxiosError: Request failed with status code 401') {
+          this.alert = 'Username or Password incorrect!'
+          this.alertShow = true
+          this.$refs.password.reset()
+        }
+      })
+    }
+  },
+  mounted () {
+    localStorage.clear()
+  }
 }
 </script>
 
@@ -146,6 +193,13 @@ export default {
         line-height: 47px;
     }
     .forgotFont {
+        font-family: 'Lemon', cursive;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 12px;
+        line-height: 28px;
+    }
+    .alertFont {
         font-family: 'Lemon', cursive;
         font-style: normal;
         font-weight: 800;
