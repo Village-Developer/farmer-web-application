@@ -2,18 +2,19 @@
   <v-app-bar
     fixed
     color="white"
-    height="100px"
+    height="70px"
     elevation="2"
   >
   <v-container
     fill-height
+    class="pa-0"
   >
     <a href="/farmer/api-document">
       <v-img
         class="mr-4"
         contain
-        max-height="70"
-        max-width="70"
+        max-height="40"
+        max-width="40"
         src="../assets/login/logo.jpg"
       ></v-img>
     </a>
@@ -30,19 +31,58 @@
       placeholder="Search"
       outlined
       rounded
+      dense
     ></v-text-field>
-    <v-btn class="mr-4s" depressed color="white">
+    <v-btn
+      class="mr-4"
+      fab
+      depressed
+      color="white"
+    >
       <v-icon large>mdi-bell</v-icon>
     </v-btn>
-    <v-btn depressed color="white">
-      <v-icon large>mdi-account</v-icon>
-    </v-btn>
+    <v-menu
+      offset-y
+      left
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          fab
+          depressed
+          color="white"
+        >
+          <v-icon
+            large
+            v-bind="attrs"
+            v-on="on">mdi-account</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          :href="item.link"
+          link
+        >
+          <v-list-item-title class="menuFont"><v-icon>mdi-logout</v-icon>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-container>
   </v-app-bar>
 </template>
 
 <script>
-
+export default {
+  data: () => ({
+    items: [
+      {
+        title: 'Logout',
+        link: '/farmer/login'
+      }
+    ]
+  })
+}
 </script>
 
 <style>
@@ -50,7 +90,14 @@
     font-family: 'Lemon', cursive;
     font-style: normal;
     font-weight: 800;
-    font-size: 46px;
-    line-height: 60px;
+    font-size: 30px;
+    line-height: 20px;
+  }
+  .menuFont {
+    font-family: 'Lemon', cursive;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 20px;
   }
 </style>
