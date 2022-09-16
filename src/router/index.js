@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Header from '../layout/AppHeader'
 import Footer from '../layout/AppFooter'
-import Home from '../views/ApiDocumentView'
+import ApiDocument from '../views/ApiDocumentView'
 
 Vue.use(VueRouter)
 
@@ -13,19 +13,21 @@ const routes = [
   },
   {
     path: '/farmer/api-document',
-    name: 'home',
+    name: 'api-document',
     components: {
       header: Header,
-      default: Home,
+      default: ApiDocument,
       footer: Footer
     }
   },
   {
     path: '/farmer/login',
+    name: 'login',
     component: () => import('../views/LoginView.vue')
   },
   {
     path: '/farmer/register',
+    name: 'register',
     component: () => import('../views/RegisterView.vue')
   }
 ]
