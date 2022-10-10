@@ -3,7 +3,7 @@
     fixed
     color="white"
     height="70px"
-    elevation="2"
+    elevation="1"
   >
   <v-container
     fill-height
@@ -15,7 +15,7 @@
         contain
         max-height="40"
         max-width="40"
-        src="../assets/login/logo.jpg"
+        src="../assets/login/logo.png"
       ></v-img>
     </a>
     <h1 class="titleFont">Farmer Project</h1>
@@ -23,7 +23,7 @@
     <v-spacer></v-spacer>
     <v-spacer></v-spacer>
     <v-spacer></v-spacer>
-    <v-text-field
+    <!-- <v-text-field
       class="ml-8 mr-8"
       hide-details
       prepend-inner-icon="mdi-magnify"
@@ -32,14 +32,16 @@
       outlined
       rounded
       dense
-    ></v-text-field>
-    <v-btn
-      class="mr-4"
-      fab
-      depressed
-      color="white"
+    ></v-text-field> -->
+     <v-btn
+      icon
     >
-      <v-icon large>mdi-bell</v-icon>
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
+    <v-btn
+      icon
+    >
+      <v-icon>mdi-bell</v-icon>
     </v-btn>
     <v-menu
       offset-y
@@ -47,12 +49,9 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-          fab
-          depressed
-          color="white"
+          icon
         >
           <v-icon
-            large
             v-bind="attrs"
             v-on="on">mdi-account</v-icon>
         </v-btn>
@@ -64,7 +63,7 @@
           :href="item.link"
           link
         >
-          <v-list-item-title class="menuFont"><v-icon>mdi-logout</v-icon>{{ item.title }}</v-list-item-title>
+          <v-list-item-title class="menuFont"><v-icon>mdi-logout</v-icon> {{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

@@ -17,7 +17,7 @@
                         contain
                         max-height="50"
                         max-width="50"
-                        src="../assets/login/logo.jpg"
+                        src="../assets/login/logo.png"
                     ></v-img>
                     <h1
                         class="titleFont"

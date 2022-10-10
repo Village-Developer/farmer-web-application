@@ -1,6 +1,7 @@
 <template>
     <v-sheet>
-      <v-row class="mt-8">
+      <v-container v-show="overview">
+        <v-row class="mt-5">
           <v-col>
             <p class="detailFont">{{ apiDetail.description }}</p>
           </v-col>
@@ -23,18 +24,21 @@
             </ul>
             <v-textarea
               background-color="black"
+              auto-grow
               dark
-              height="350px"
+              v-model="json"
               rounded
+              disabled
             ></v-textarea>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row class="mt-0">
           <v-col>
             <p>Parameter content type</p>
           </v-col>
-          <v-col>
+          <v-col cols="4">
             <v-select
+              v-model="parameter"
               :items="parameters"
               outlined
               dense
@@ -49,17 +53,19 @@
             </ul>
             <v-textarea
               background-color="black"
+              auto-grow
               dark
-              height="350px"
+              v-model="json"
               rounded
+              disabled
             ></v-textarea>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row class="mt-0">
           <v-col>
             <p>Response content type</p>
           </v-col>
-          <v-col>
+          <v-col cols="4">
             <v-select
               v-model="parameter"
               :items="responses"
@@ -68,14 +74,20 @@
             ></v-select>
           </v-col>
         </v-row>
+      </v-container>
     </v-sheet>
 </template>
 
 <script>
+
+import { EventBus } from './../../../event-bus.js'
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'OverviewAPI',
   data: () => ({
+    overview: true,
+    sample: false,
     parameter: 'application/json',
     apiDetail: {
       title: 'Login website',
@@ -85,8 +97,24 @@ export default {
     },
     parameters: ['application/json', 'application/xml'],
     status: ['200 OK', '400 Bad Request', '500 Internal error'],
-    responses: ['application/json', 'application/xml']
-  })
+    responses: ['application/json', 'application/xml'],
+    json: `{
+      test: 'dsd',
+      test: 'dsd',
+      test: 'dsd',
+      test: 'dsd',
+      test: 'dsd',
+      test: 'dsd'
+    }`
+  }),
+  mounted () {
+    EventBus.$on('overview', () => {
+      this.overview = true
+    })
+    EventBus.$on('sample', () => {
+      this.overview = false
+    })
+  }
 }
 </script>
 
