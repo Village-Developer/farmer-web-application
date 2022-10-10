@@ -150,24 +150,20 @@ export default {
     username: '',
     email: '',
     password: '',
+    rePassword: '',
     showPassword: false,
     alertShow: false,
     alert: ''
   }),
   methods: {
     register () {
-      axios.post('/register/user', {
-        credential: {
-          user: this.username,
-          pass: this.password
-        },
-        addr: null,
-        job: null,
-        role: {
-          role: ''
-        },
-        fname: '',
-        lname: ''
+      axios.post('auth/register', {
+        username: this.username,
+        password: this.password,
+        rePassword: this.password,
+        email: '',
+        title: '',
+        name: ''
       }).then((response) => {
         this.$router.push({ name: 'login' })
       }).catch((error) => {
