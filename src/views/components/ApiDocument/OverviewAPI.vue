@@ -3,13 +3,13 @@
       <v-container v-show="overview">
         <v-row class="mt-5">
           <v-col>
-            <p class="detailFont">{{ apiDetail.description }}</p>
+            <p>{{ apiDetail.description }}</p>
           </v-col>
         </v-row>
         <v-row class="mt-4">
           <v-col>
-            <h1 class="subTitleFont">Features</h1>
-            <ul class="detailFont ml-5 mt-4">
+            <h2>Features</h2>
+            <ul>
               <li>Lorem ipsum dolor sit amet.</li>
               <li>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</li>
               <li>There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain...</li>
@@ -18,16 +18,15 @@
         </v-row>
         <v-row class="mt-4">
           <v-col>
-            <h1 class="subTitleFont">Parameters</h1>
+            <h2>Parameters</h2>
             <ul class="ml-5 mt-4">
-              <li class="detailFont">Body</li>
+              <li>Body</li>
             </ul>
             <v-textarea
               background-color="black"
               auto-grow
               dark
               v-model="json"
-              rounded
               disabled
             ></v-textarea>
           </v-col>
@@ -47,16 +46,15 @@
         </v-row>
         <v-row class="mt-4">
           <v-col>
-            <h1 class="subTitleFont">Response</h1>
+            <h2>Response</h2>
             <ul class="ml-5 mt-4">
-              <li class="detailFont">Status Code 200 OK</li>
+              <li>Status Code 200 OK</li>
             </ul>
             <v-textarea
               background-color="black"
               auto-grow
               dark
               v-model="json"
-              rounded
               disabled
             ></v-textarea>
           </v-col>

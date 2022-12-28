@@ -1,10 +1,8 @@
 <template>
   <v-app>
-    <router-view name="header"></router-view>
-    <v-main>
-      <router-view></router-view>
-    </v-main>
-    <router-view name="footer"></router-view>
+    <!-- <router-view name="header"></router-view> -->
+    <router-view></router-view>
+    <!-- <router-view name="footer"></router-view> -->
   </v-app>
 </template>
 
