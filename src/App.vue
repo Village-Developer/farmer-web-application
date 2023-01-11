@@ -1,8 +1,6 @@
 <template>
   <v-app>
-    <!-- <router-view name="header"></router-view> -->
     <router-view></router-view>
-    <!-- <router-view name="footer"></router-view> -->
   </v-app>
 </template>
 
@@ -12,7 +10,7 @@ export default {
   name: 'App',
 
   data: () => ({
-    //
+
   }),
   components: {
 
