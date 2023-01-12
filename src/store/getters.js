@@ -5,3 +5,7 @@ export const getAppBarHeight = (state) => {
 export const getSideBarDrawer = (state) => {
   return state.sideBarDrawer
 }
+
+export const snackbar = (state) => {
+  return state.snackbar
+}

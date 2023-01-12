@@ -16,7 +16,15 @@
             style="margin-right: 1px"
             v-show="getSideBarDrawer"
           ></SideMenu>
-          <api-document />
+          <api-document v-if="true"/>
+          <!-- <v-card v-if="true" class="d-flex align-center justify-center" width="100%">
+            <v-img
+              src="../assets/eggplant.png"
+              aspect-ratio="3"
+              contain
+            >
+            </v-img>
+          </v-card> -->
         </v-card>
       </v-col>
     </v-row>
@@ -25,14 +33,16 @@
 
 <script>
 import SideMenu from './components/SideMenu'
-import ApiDocument from './components/ApiDocument'
+import ApiDocument from './components/ApiDocument/ApiDocument.vue'
 import AppHeader from '@/layout/AppHeader'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'ApiDocumentView',
   data: () => ({
     overview: true,
-    sample: false
+    sample: false,
+    snackbar: true,
+    text: 'hello'
   }),
   components: {
     SideMenu,

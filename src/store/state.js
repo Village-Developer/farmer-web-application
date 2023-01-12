@@ -1,4 +1,6 @@
 export default {
   appBarHeight: 0,
-  sideBarDrawer: true
+  sideBarDrawer: true,
+  snackbar: false,
+  message: ''
 }

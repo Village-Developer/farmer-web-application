@@ -28,3 +28,11 @@ export const setApiLists = (state, list) => {
   })
   state.apiLists = list
 }
+
+export const setAllMethod = (state, list) => {
+  state.method = list
+}
+
+export const switchMode = (state, value) => {
+  state.edit = value
+}

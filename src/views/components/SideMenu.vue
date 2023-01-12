@@ -38,6 +38,7 @@
             rounded
             depressed
             small
+            @click="showSnackbar('Waiting for API')"
           ><v-icon>mdi-plus</v-icon></v-btn>
         </v-card>
       </v-row>
@@ -228,7 +229,8 @@ export default {
     setSearchBoxHeight () {
       this.searchBoxHeight = this.$refs.searchBox.clientHeight
     },
-    ...mapMutations('apiDocument', ['activeItem', 'renameItem', 'deleteItem'])
+    ...mapMutations('apiDocument', ['activeItem', 'renameItem', 'deleteItem']),
+    ...mapMutations(['showSnackbar'])
   },
   computed: {
     ...mapGetters(['getAppBarHeight'])
