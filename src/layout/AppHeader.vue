@@ -24,9 +24,20 @@
                 src="../assets/login/logo.png"
               ></v-img>
             </a>
-            <v-app-bar-nav-icon
+            <v-btn
               @click="switchDrawer()"
-            />
+              icon
+              small
+              class="mr-1"
+            >
+              <v-icon
+              > {{ getSideBarDrawer ? "mdi-menu-open" : "mdi-menu" }}</v-icon>
+            </v-btn>
+            <!-- <v-icon
+              @click="switchDrawer()"
+              class="mr-1"
+              :ripple="false"
+            >mdi-menu</v-icon> -->
             <div
               class="text-h6 font-weight-medium"
               v-show="showTitle"
@@ -51,10 +62,14 @@
             <v-menu
               offset-y
               left
+              transition="slide-y-transition"
+              rounded="lg"
+              min-width="150"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
+                  small
                 >
                   <v-icon
                     v-bind="attrs"
@@ -63,13 +78,21 @@
               </template>
               <v-list>
                 <v-list-item
+                  class="mx-2"
+                  dense
+                  link
+                >
+                  <v-list-item-title>XeonEVO</v-list-item-title>
+                </v-list-item>
+                <v-list-item
                   v-for="(item, index) in items"
+                  class="mx-2 "
                   :key="index"
                   :href="item.link"
                   link
                   dense
                 >
-                  <v-list-item-title class="menuFont"><v-icon>mdi-logout</v-icon> {{ item.title }}</v-list-item-title>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -81,6 +104,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     items: [
@@ -108,7 +132,8 @@ export default {
         case 'lg': return true
         case 'xl': return true
       }
-    }
+    },
+    ...mapGetters(['getSideBarDrawer'])
   },
   mounted () {
     this.setAppBarHeight()

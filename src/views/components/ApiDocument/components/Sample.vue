@@ -20,11 +20,12 @@
             <v-select
               dense
               :items="method"
-              value="GET"
+              :value="getApiDetail.method"
               hide-details
               outlined
               flat
               :readonly="!getMode"
+              class="text-subtitle-2 font-weight-regular"
             >
             </v-select>
           </v-card>
@@ -33,8 +34,8 @@
             outlined
             dense
             elevation="0"
-            prefix="https://"
             hide-details
+            :value="getApiDetail.url"
             :readonly="!getMode"
           >
           </v-text-field>
@@ -131,7 +132,7 @@ export default {
   },
   computed: {
     ...mapState('apiDocument', ['method']),
-    ...mapGetters('apiDocument', ['getMode'])
+    ...mapGetters('apiDocument', ['getMode', 'getApiDetail'])
   },
   mounted () {
     this.getAllMethod()

@@ -37,7 +37,7 @@ import SideMenu from './components/SideMenu'
 import ApiDocument from './components/ApiDocument/ApiDocument.vue'
 import NoContent from './components/ApiDocument/NoContent.vue'
 import AppHeader from '@/layout/AppHeader'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'ApiDocumentView',
   data: () => ({
@@ -53,13 +53,19 @@ export default {
     NoContent
   },
   methods: {
-    ...mapActions('apiDocument', ['getAllApiList'])
+    ...mapActions('apiDocument', ['getAllApiList']),
+    ...mapMutations('apiDocument', ['setApiInfo'])
   },
   computed: {
     ...mapGetters('apiDocument', ['apiLists', 'getApiInfo']),
     ...mapGetters(['getSideBarDrawer'])
   },
   mounted () {
+    if (localStorage.getItem('activeRequest')) {
+      this.setApiInfo(true)
+    } else {
+      this.setApiInfo(false)
+    }
     // if (!localStorage.getItem('token')) {
     //   this.$router.push({ name: 'login' })
     // }

@@ -33,14 +33,14 @@
                   elevation="0"
                 >
                   <v-text-field
-                    class="text-h5 font-weight-regular pl-0 mr-2"
+                    class="text-h6 font-weight-regular pl-0 mr-2"
                     dense
                     solo
                     flat
                     :outlined="getMode"
                     full-width
                     :readonly="!getMode"
-                    :value="title"
+                    :value="getApiDetail.name"
                     hide-details
                   ></v-text-field>
                   <!-- <v-btn
@@ -176,7 +176,7 @@ export default {
     appBarHeight () {
       return this.$store.getters.getAppBarHeight
     },
-    ...mapGetters('apiDocument', ['getMode'])
+    ...mapGetters('apiDocument', ['getMode', 'getApiDetail'])
   },
   mounted () {
     this.deviceHeight = window.innerHeight

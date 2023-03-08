@@ -18,7 +18,7 @@
       </v-row>
       <v-textarea
         class="my-1"
-        :value="description"
+        :value="getApiDetail.description"
         flat
         solo
         :outlined="getMode"
@@ -31,7 +31,7 @@
       class="mt-6 text-center"
       no-gutters
     >
-      <div class="text-h6 font-weight-light">Usage Example</div>
+      <div class="text-h6 font-weight-light">Usage</div>
       <v-divider class="my-auto mx-3"></v-divider>
       <v-btn
         v-if="getMode"
@@ -50,7 +50,7 @@
             solo
             flat
             :outlined="getMode"
-            value="www.village.com/api/api_document/api_group/api_list/:api_list_id"
+            :value="getApiDetail.url"
             :readonly="!getMode"
           >
           </v-text-field>
@@ -66,7 +66,7 @@
             solo
             flat
             :outlined="getMode"
-            value="POST"
+            :value="getApiDetail.method"
             :readonly="!getMode"
           >
         </v-text-field>
@@ -102,12 +102,12 @@ export default {
   data: () => ({
     documents: [
       { name: 'Description', edit: false },
-      { name: 'Features', edit: false }
+      { name: 'Feature', edit: false }
     ],
     description: 'It allows developers to test their code and applications without having to set up a real login system or connect to a production database. The mockup login API typically returns predetermined responses for various input scenarios, allowing developers to test how their code handles different types of responses. Some mockup login APIs may even allow developers to customize the responses that are returned, allowing for more comprehensive testing.'
   }),
   computed: {
-    ...mapGetters('apiDocument', ['getMode'])
+    ...mapGetters('apiDocument', ['getMode', 'getApiDetail'])
   }
 }
 </script>

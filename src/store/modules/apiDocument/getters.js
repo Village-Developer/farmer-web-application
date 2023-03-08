@@ -13,3 +13,7 @@ export const getOpen = (state) => {
 export const getApiInfo = (state) => {
   return state.apiInfo
 }
+
+export const getApiDetail = (state) => {
+  return state.apiDetail
+}

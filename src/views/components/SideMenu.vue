@@ -84,10 +84,9 @@
               :class="[`mb-0`, `font-weight-regular`, `${colors[item.method]}--text`, `text-caption`]"
             >{{ methods[item.method]}}</div>
           </template>
-          <template v-slot:label="{ item , active }">
+          <template v-slot:label="{ item }">
             <div
               class="text--subtitle-2"
-              @click="selectItem(item, active)"
             >
               {{ item.name }}
             </div>
@@ -97,7 +96,8 @@
               offset-y
               left
               min-width="150px"
-              tile
+              transition="slide-y-transition"
+              rounded="lg"
             >
               <template v-slot:activator="{ on, attr }">
                 <v-btn
@@ -121,7 +121,7 @@
                   @click="selectProjectId(item), addGroupDialog = true"
                 >
                   <v-list-item-icon class="mr-2"><v-icon>mdi-plus</v-icon></v-list-item-icon>
-                  <v-list-item-title>Add Group</v-list-item-title>
+                  <v-list-item-title>Add Folder</v-list-item-title>
                 </v-list-item>
                  <v-list-item
                   v-if="item.type === 'project' || item.type === 'group'"
@@ -156,7 +156,7 @@
       >
         <v-card
         >
-          <v-card-title>Edit name</v-card-title>
+          <v-card-title>Rename</v-card-title>
           <v-divider></v-divider>
           <v-text-field
             class="mx-6 my-10"
@@ -266,7 +266,7 @@
       >
         <v-card
         >
-          <v-card-title>Add Group</v-card-title>
+          <v-card-title>Add Folder</v-card-title>
           <v-divider></v-divider>
           <v-text-field
             class="mx-6 my-10"
@@ -299,7 +299,7 @@
       >
         <v-card
         >
-          <v-card-title>Add Api</v-card-title>
+          <v-card-title>Add Request</v-card-title>
           <v-divider></v-divider>
           <v-text-field
             class="mx-6 my-10"
@@ -392,18 +392,18 @@ export default {
     changeItem (value) {
       localStorage.setItem('open', JSON.stringify(value))
     },
-    selectItem (item, active) {
-      if (!active) {
-        localStorage.setItem('active', JSON.stringify([item.id]))
-      } else {
-        localStorage.setItem('active', JSON.stringify([]))
-      }
-      if (item.type === 'api' && !active) {
-        this.setApiInfo(true)
-      } else {
-        this.setApiInfo(false)
-      }
-    },
+    // selectItem (item, active) {
+    //   if (!active) {
+    //     localStorage.setItem('active', JSON.stringify([item.id]))
+    //   } else {
+    //     localStorage.setItem('active', JSON.stringify([]))
+    //   }
+    //   if (item.type === 'api' && !active) {
+    //     this.setApiInfo(true)
+    //   } else {
+    //     this.setApiInfo(false)
+    //   }
+    // },
     selectDeleteItem (item) {
       this.deleteType = item.type
       this.deleteItemName = item.name

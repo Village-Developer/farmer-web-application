@@ -1,4 +1,5 @@
 export const activeItem = (state, value) => {
+  localStorage.setItem('active', JSON.stringify(value))
   state.apiLists.map(group => {
     if (value[0] === group.id) {
       group.showEditIcon = true
@@ -9,6 +10,13 @@ export const activeItem = (state, value) => {
       group.children = group.children.map(apiGroup => {
         if (value[0] === apiGroup.id) {
           apiGroup.showEditIcon = true
+          if (apiGroup.type === 'api') {
+            state.apiInfo = true
+            localStorage.setItem('activeRequest', apiGroup.id)
+          } else {
+            state.apiInfo = false
+            localStorage.setItem('activeRequest', [])
+          }
         } else {
           apiGroup.showEditIcon = false
         }
@@ -16,8 +24,12 @@ export const activeItem = (state, value) => {
           apiGroup.children = apiGroup.children.map(api => {
             if (value[0] === api.id) {
               api.showEditIcon = true
+              state.apiInfo = true
+              localStorage.setItem('activeRequest', api.id)
             } else {
               api.showEditIcon = false
+              state.apiInfo = false
+              localStorage.setItem('activeRequest', [])
             }
             return api
           })
@@ -30,14 +42,15 @@ export const activeItem = (state, value) => {
 }
 
 export const setApiLists = (state, list) => {
+  const active = JSON.parse(localStorage.getItem('active'))
   list.map(group => {
-    group.showEditIcon = false
+    active[0] === group.id ? group.showEditIcon = true : group.showEditIcon = false
     if (group.children != null) {
       group.children = group.children.map(apiGroup => {
-        apiGroup.showEditIcon = false
+        active[0] === apiGroup.id ? apiGroup.showEditIcon = true : apiGroup.showEditIcon = false
         if (apiGroup.children != null) {
           apiGroup.children = apiGroup.children.map(api => {
-            api.showEditIcon = false
+            active[0] === api.id ? api.showEditIcon = true : api.showEditIcon = false
             return api
           })
         }
