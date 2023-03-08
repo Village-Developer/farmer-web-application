@@ -1,5 +1,7 @@
 export default {
   apiLists: [],
   method: [],
-  edit: false
+  edit: false,
+  open: [],
+  apiInfo: false
 }

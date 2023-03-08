@@ -5,3 +5,11 @@ export const apiLists = (state) => {
 export const getMode = (state) => {
   return state.edit
 }
+
+export const getOpen = (state) => {
+  return state.open
+}
+
+export const getApiInfo = (state) => {
+  return state.apiInfo
+}

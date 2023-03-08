@@ -16,7 +16,8 @@
             style="margin-right: 1px"
             v-show="getSideBarDrawer"
           ></SideMenu>
-          <api-document v-if="true"/>
+          <api-document v-if="getApiInfo"/>
+          <no-content v-if="!getApiInfo"/>
           <!-- <v-card v-if="true" class="d-flex align-center justify-center" width="100%">
             <v-img
               src="../assets/eggplant.png"
@@ -34,6 +35,7 @@
 <script>
 import SideMenu from './components/SideMenu'
 import ApiDocument from './components/ApiDocument/ApiDocument.vue'
+import NoContent from './components/ApiDocument/NoContent.vue'
 import AppHeader from '@/layout/AppHeader'
 import { mapActions, mapGetters } from 'vuex'
 export default {
@@ -47,19 +49,20 @@ export default {
   components: {
     SideMenu,
     ApiDocument,
-    AppHeader
+    AppHeader,
+    NoContent
   },
   methods: {
     ...mapActions('apiDocument', ['getAllApiList'])
   },
   computed: {
-    ...mapGetters('apiDocument', ['apiLists']),
+    ...mapGetters('apiDocument', ['apiLists', 'getApiInfo']),
     ...mapGetters(['getSideBarDrawer'])
   },
   mounted () {
-    if (!localStorage.getItem('token')) {
-      this.$router.push({ name: 'login' })
-    }
+    // if (!localStorage.getItem('token')) {
+    //   this.$router.push({ name: 'login' })
+    // }
     this.getAllApiList()
   }
 }

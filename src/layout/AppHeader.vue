@@ -4,6 +4,7 @@
       color="blue-grey darken-4"
       elevation="1"
       dark
+      dense
     >
       <v-container
         class="d-flex align-center pa-0"
@@ -26,10 +27,10 @@
             <v-app-bar-nav-icon
               @click="switchDrawer()"
             />
-            <h2
-              class="font-weight-medium"
+            <div
+              class="text-h6 font-weight-medium"
               v-show="showTitle"
-            >Farmer Project</h2>
+            >Farmer Project</div>
           </v-col>
           <v-col
             class="d-flex justify-center align-center"

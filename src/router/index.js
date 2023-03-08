@@ -3,13 +3,23 @@ import VueRouter from 'vue-router'
 import Header from '../layout/AppHeader'
 import Footer from '../layout/AppFooter'
 import ApiDocument from '../views/ApiDocumentView'
+import axios from 'axios'
 
 Vue.use(VueRouter)
+
+const jwtVerify = (to, from, next) => {
+  axios.post('http://localhost:9000/api/v1/verify', { token: localStorage.getItem('token') })
+    .then(response => {
+      next()
+    }).catch(() => {
+      next('/farmer/login')
+    })
+}
 
 const routes = [
   {
     path: '/',
-    redirect: '/farmer/login'
+    redirect: '/farmer/api-document'
   },
   {
     path: '/farmer/api-document',
@@ -18,7 +28,8 @@ const routes = [
       header: Header,
       default: ApiDocument,
       footer: Footer
-    }
+    },
+    beforeEnter: jwtVerify
   },
   {
     path: '/farmer/login',

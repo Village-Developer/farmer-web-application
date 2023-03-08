@@ -157,7 +157,8 @@ export default {
     ...mapState('authentication', ['message', 'alert'])
   },
   mounted () {
-    localStorage.removeItem('token')
+    // localStorage.removeItem('token')
+    localStorage.clear()
   }
 }
 </script>

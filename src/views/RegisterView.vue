@@ -150,25 +150,21 @@ export default {
     username: '',
     email: '',
     password: '',
-    rePassword: '',
     showPassword: false,
     alertShow: false,
     alert: ''
   }),
   methods: {
     register () {
-      axios.post('auth/register', {
+      axios.post('api/v1/register', {
         username: this.username,
         password: this.password,
-        rePassword: this.password,
-        email: '',
-        title: '',
-        name: ''
+        email: this.email,
+        role: 'user'
       }).then((response) => {
         this.$router.push({ name: 'login' })
-      }).catch((error) => {
+      }).catch(() => {
         this.alert = 'Fill out the information completely!'
-        console.log(error)
       })
     }
   }

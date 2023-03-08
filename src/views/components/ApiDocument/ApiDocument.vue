@@ -82,7 +82,7 @@
                   >
                     <v-btn
                       icon
-                      @click="showSnackbar('Developing')"
+                      @click="showSnackbar('Coming soon.')"
                     ><v-icon>mdi-dots-vertical</v-icon></v-btn>
                   </v-card>
                 </v-card>
@@ -103,6 +103,7 @@
               :min-height="deviceHeight - headerHeight - footer - appBarHeight"
             >
               <v-tabs
+                height="40px"
                 v-model="tab"
                 background-color="blue-grey lighten-5"
               >
