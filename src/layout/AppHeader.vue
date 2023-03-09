@@ -82,7 +82,14 @@
                   dense
                   link
                 >
-                  <v-list-item-title>XeonEVO</v-list-item-title>
+                  <v-list-item-title><v-icon class="mr-2">mdi-account</v-icon>XeonEVO</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  class="mx-2"
+                  dense
+                  link
+                >
+                  <v-list-item-title><v-icon class="mr-2">mdi-cog-outline</v-icon>Settings</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                   v-for="(item, index) in items"
@@ -92,7 +99,7 @@
                   link
                   dense
                 >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  <v-list-item-title><v-icon class="mr-2">mdi-logout-variant</v-icon>{{ item.title }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>

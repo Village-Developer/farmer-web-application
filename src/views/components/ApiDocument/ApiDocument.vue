@@ -33,47 +33,33 @@
                   elevation="0"
                 >
                   <v-text-field
+                    id="test"
                     class="text-h6 font-weight-regular pl-0 mr-2"
                     dense
                     solo
-                    flat
-                    :outlined="getMode"
-                    full-width
+                    :background-color="!getMode ? '' : 'blue-grey lighten-4'"
+                    :flat="!getMode"
                     :readonly="!getMode"
                     :value="getApiDetail.name"
                     hide-details
                   ></v-text-field>
-                  <!-- <v-btn
-                    class="my-auto mx-2"
-                    icon
-                  >
-                    <v-icon @click="editTitle">mdi-pencil-outline</v-icon>
-                  </v-btn> -->
-                  <!-- <v-btn
-                    class="px-3 my-auto mx-2"
-                    color="green lighten-1"
-                    elevation="0"
-                    :disabled="false"
-                  ><v-icon
-                    class="mr-1"
-                  >mdi-content-save-outline</v-icon>Save</v-btn> -->
                   <v-card
                     elevation="0"
                   >
-                    <!-- <v-select
-                      :items="mode"
-                      dense
-                      value="Editing"
-                      outlined
-                      hide-details
-                    >
-                    </v-select> -->
                     <v-btn-toggle
                       mandatory
                       dense
+                      class="my-auto"
                     >
-                      <v-btn height="40px" @click="switchMode(false)"><v-icon>mdi-content-save</v-icon></v-btn>
-                      <v-btn height="40px" @click="switchMode(true)"><v-icon>mdi-pencil</v-icon></v-btn>
+                      <v-btn
+                        :disabled="!getMode"
+                        @click="confirmChangeDialog = true"
+                        color="success darken-5"
+                      ><v-icon>mdi-content-save</v-icon></v-btn>
+                      <v-btn
+                        :disabled="getMode"
+                        @click="switchMode(true)"
+                      ><v-icon>mdi-pencil</v-icon></v-btn>
                     </v-btn-toggle>
                   </v-card>
                    <v-card
@@ -134,6 +120,34 @@
         </v-col>
       </v-row>
     </v-card>
+    <v-dialog
+      v-model="confirmChangeDialog"
+      max-width="500px"
+    >
+      <v-card
+      >
+        <v-card-title>Save</v-card-title>
+        <v-divider></v-divider>
+        <div>
+          <p class="text-center my-8">Are you sure you want to save new change?</p>
+        </div>
+        <v-divider></v-divider>
+        <v-card-actions class="py-5">
+          <v-spacer></v-spacer>
+          <v-btn
+            min-width="80px"
+            elevation="0"
+            @click="cancel()"
+          >Cancel</v-btn>
+          <v-btn
+            min-width="80px"
+            elevation="0"
+            color="success darken-5"
+            @click="save()"
+          >Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -151,7 +165,8 @@ export default {
     headerHeight: 0,
     footer: 0,
     tab: null,
-    mode: ['Editing', 'Viewing']
+    mode: ['Editing', 'Viewing'],
+    confirmChangeDialog: false
   }),
   components: {
     AppFooter,
@@ -159,6 +174,14 @@ export default {
     Sample
   },
   methods: {
+    save () {
+      this.confirmChangeDialog = false
+      this.switchMode(false)
+    },
+    cancel () {
+      this.confirmChangeDialog = false
+      this.switchMode(false)
+    },
     handleResize () {
       this.deviceHeight = window.innerHeight
     },

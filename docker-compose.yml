@@ -1,0 +1,14 @@
+services:
+  frontend:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    container_name: farmer-frontend
+    restart: always
+    ports:
+        - "8081:8080"
+    networks:
+        -  database_default
+networks:
+  database_default:
+        external: true

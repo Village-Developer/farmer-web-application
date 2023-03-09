@@ -24,13 +24,15 @@
             label="Filter"
             dense
             clearable
+            background-color="grey lighten-2"
+            color="grey darken-3"
             solo
             flat
-            clear-icon="mdi-close-circle-outline"
+            clear-icon="mdi-close-circle"
             hide-details
             v-model="search"
             @input="onSearch()"
-            outlined
+            :outlined="false"
           ></v-text-field>
           <v-btn
             class="ml-auto mr-2 my-auto"
@@ -42,6 +44,7 @@
           ><v-icon>mdi-plus</v-icon></v-btn>
         </v-card>
       </v-row>
+      <v-divider />
       <v-card
         style="overflow-y: auto;"
         :height="deviceHeight - getAppBarHeight - searchBoxHeight"
@@ -441,6 +444,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getAppBarHeight']),
+    ...mapGetters('apiDocument', ['getMode']),
     initiallyOpen: {
       get () {
         return JSON.parse(localStorage.getItem('open'))
