@@ -21,7 +21,7 @@
         :value="getApiDetail.description"
         solo
         :flat="!getMode"
-        :background-color="!getMode ? '' : 'blue-grey lighten-4'"
+        :background-color="!getMode ? '' : ''"
         :readonly="!getMode"
         hide-details
         row-height="1"
@@ -29,18 +29,99 @@
       />
     </div>
     <v-row
+      class="mt-6 text-center mb-4"
+      no-gutters
+    >
+      <div class="text-h6 font-weight-light">Features</div>
+      <v-divider class="my-auto mx-3"></v-divider>
+      <v-btn
+        v-if="getMode"
+        icon
+        @click="addFeature"
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-row>
+    <v-row
+      v-for="feature, index in features"
+      :key="feature.no"
+      no-gutters
+      class="mb-1"
+    >
+      <v-card
+        elevation="0"
+        width="60px"
+      >
+        <v-text-field
+          class="text-body-2 font-weight-regular"
+          reverse
+          solo
+          flat
+          :value="(index + 1).toString() + ')'"
+          dense
+          hide-details
+          readonly
+        />
+      </v-card>
+      <v-textarea
+        class="text-body-2 font-weight-regular"
+        solo
+        :flat="!getMode"
+        rows="1"
+        :value="feature.value"
+        auto-grow
+        :readonly="!getMode"
+        dense
+        hide-details
+        @keydown.tab="tab"
+      />
+      <v-btn
+        v-if="getMode"
+        class="ml-2"
+        @click="deleteFeature(index)"
+        icon
+      ><v-icon>mdi-delete</v-icon></v-btn>
+    </v-row>
+    <v-row
       class="mt-6 text-center"
       no-gutters
     >
       <div class="text-h6 font-weight-light">Usage</div>
       <v-divider class="my-auto mx-3"></v-divider>
-      <!-- <v-btn
+     <v-menu
         v-if="getMode"
-        icon
-      ><v-icon>{{ getMode ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon></v-btn> -->
+        offset-y
+        left
+        transition="slide-y-transition"
+        :close-on-content-click="false"
+      >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          icon
+        >
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+      </template>
+      <v-card
+        class="pa-2"
+      >
+        <v-checkbox
+          v-for="(usage, index) in usages"
+          v-model="usage.active"
+          :key="index"
+          class="ma-0"
+          :label="usage.name"
+          @click="usage.active != usage.active"
+          hide-details
+        ></v-checkbox>
+      </v-card>
+    </v-menu>
     </v-row>
       <div class="ml-5">
         <v-row
+          v-if="usages[0].active"
           class="align-center mt-4 mb-2"
           no-gutters
         >
@@ -50,13 +131,14 @@
             hide-details
             solo
             :flat="!getMode"
-            :background-color="!getMode ? '' : 'blue-grey lighten-4'"
+            :background-color="!getMode ? '' : ''"
             :value="getApiDetail.url"
             :readonly="!getMode"
           >
           </v-text-field>
         </v-row>
         <v-row
+          v-if="usages[1].active"
           class="align-center"
           no-gutters
         >
@@ -66,28 +148,295 @@
             hide-details
             solo
             :flat="!getMode"
-            :background-color="!getMode ? '' : 'blue-grey lighten-4'"
+            :background-color="!getMode ? '' : ''"
             :value="getApiDetail.method"
             :readonly="!getMode"
           >
         </v-text-field>
       </v-row>
-    </div>
       <v-row
-        class="mt-6 text-center"
+        v-if="usages[2].active"
+        class="mt-4 mb-1"
         no-gutters
       >
-      <div class="text-h6 font-weight-light">Response Example</div>
-      <v-divider class="my-auto mx-3"></v-divider>
-      <!-- <v-btn
-        v-if="getMode"
-        icon
-      ><v-icon>{{ getMode ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon></v-btn> -->
-    </v-row>
-    <v-row no-gutters>
+        <div class="text-body-1">Query Params</div>
+      </v-row>
+      <v-row
+        v-if="usages[2].active"
+        class="mx-4"
+        no-gutters
+      >
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="KEY"
+          hide-details
+          readonly
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="VALUE"
+          hide-details
+          readonly
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="DESCRIPTION"
+          hide-details
+          readonly
+        />
+      </v-row>
+      <v-row
+        v-if="usages[2].active"
+        class="mx-4"
+        no-gutters
+      >
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Key"
+          hide-details
+          :readonly="!getMode"
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Value"
+          hide-details
+          :readonly="!getMode"
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Description"
+          hide-details
+          :readonly="!getMode"
+        />
+      </v-row>
+      <v-row
+        v-if="usages[3].active"
+        class="mt-6 mb-1"
+        no-gutters
+      >
+        <div class="text-body-1">Path Variables</div>
+      </v-row>
+      <v-row
+        v-if="usages[3].active"
+        class="mx-4"
+        no-gutters
+      >
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="KEY"
+          hide-details
+          readonly
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="VALUE"
+          hide-details
+          readonly
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="DESCRIPTION"
+          hide-details
+          readonly
+        />
+      </v-row>
+      <v-row
+        v-if="usages[3].active"
+        class="mx-4"
+        no-gutters
+      >
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Key"
+          hide-details
+          :readonly="!getMode"
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Value"
+          hide-details
+          :readonly="!getMode"
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Description"
+          hide-details
+          :readonly="!getMode"
+        />
+      </v-row>
+      <v-row
+        v-if="usages[4].active"
+        class="mt-6 mb-1"
+        no-gutters
+      >
+        <div class="text-body-1">Headers</div>
+      </v-row>
+      <v-row
+        v-if="usages[4].active"
+        class="mx-4"
+        no-gutters
+      >
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="KEY"
+          hide-details
+          readonly
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="VALUE"
+          hide-details
+          readonly
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="DESCRIPTION"
+          hide-details
+          readonly
+        />
+      </v-row>
+      <v-row
+        v-if="usages[4].active"
+        class="mx-4"
+        no-gutters
+      >
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Key"
+          hide-details
+          :readonly="!getMode"
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Value"
+          hide-details
+          :readonly="!getMode"
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Description"
+          hide-details
+          :readonly="!getMode"
+        />
+      </v-row>
+      <v-row
+        v-if="usages[5].active"
+        class="mt-6 mb-1"
+        no-gutters
+      >
+        <div class="text-body-1">Body (form-data)</div>
+      </v-row>
+      <v-row
+        v-if="usages[5].active"
+        class="mx-4"
+        no-gutters
+      >
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="KEY"
+          hide-details
+          readonly
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="VALUE"
+          hide-details
+          readonly
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          value="DESCRIPTION"
+          hide-details
+          readonly
+        />
+      </v-row>
+      <v-row
+        v-if="usages[5].active"
+        class="mx-4"
+        no-gutters
+      >
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Key"
+          hide-details
+          :readonly="!getMode"
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Value"
+          hide-details
+          :readonly="!getMode"
+        />
+        <v-text-field
+          class="border"
+          solo
+          dense
+          label="Description"
+          hide-details
+          :readonly="!getMode"
+        />
+      </v-row>
+      <v-row
+        v-if="usages[6].active"
+        class="mt-6 mb-1"
+        no-gutters
+      >
+        <div class="text-body-1">Body (json)</div>
+      </v-row>
+    <v-row
+      no-gutters
+      class="mx-4"
+      v-if="usages[6].active"
+    >
       <v-card max-width="60px" elevation="0">
         <v-textarea
-          class="border mt-4 text-body-2 font-weight-medium"
+          class="border text-body-2 font-weight-medium"
           auto-grow
           disabled
           solo
@@ -100,7 +449,7 @@
         ></v-textarea>
       </v-card>
       <v-textarea
-        class="border mt-4 text-body-2 font-weight-regular"
+        class="border text-body-2 font-weight-regular"
         auto-grow
         solo
         flat
@@ -115,7 +464,82 @@
       ></v-textarea>
     </v-row>
     <v-card
-      class="mb-10 text-right"
+      v-if="usages[6].active"
+      class="mb-10 text-right mx-4"
+      height="20px"
+      elevation="0"
+      color="grey"
+      tile
+    >
+      <div class="text-caption mr-2">By Village Developer</div>
+    </v-card>
+    </div>
+    <v-row
+      class="mt-6 text-center"
+      no-gutters
+    >
+    <div class="text-h6 font-weight-light">Response Example</div>
+    <v-divider class="my-auto mx-3"></v-divider>
+    <v-btn
+      v-if="getMode"
+      icon
+    >
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
+    </v-row>
+    <v-row
+      no-gutters
+      class="mx-6 mb-1 mt-4"
+    >
+      <v-text-field
+        class="border text-body-2 font-weight-medium mr-2"
+        solo
+        :flat="!getMode"
+        :readonly="!getMode"
+        dense
+        value="Status Code : 200 OK"
+        label="Description"
+        hide-details
+      />
+      <v-btn
+        v-if="getMode"
+        icon
+      >
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+    </v-row>
+    <v-row no-gutters class="mx-6">
+      <v-card max-width="60px" elevation="0">
+        <v-textarea
+          class="border text-body-2 font-weight-medium"
+          auto-grow
+          disabled
+          solo
+          flat
+          background-color="blue-grey lighten-1"
+          hide-details
+          v-model="lineNumber"
+          :rows="lineCount"
+          dense
+        ></v-textarea>
+      </v-card>
+      <v-textarea
+        class="border text-body-2 font-weight-regular"
+        auto-grow
+        solo
+        flat
+        :readonly="!getMode"
+        :background-color="!getMode ? 'blue-grey lighten-5' : 'blue-grey lighten-4'"
+        v-model="response"
+        hide-details
+        @keydown.tab="tab"
+        :rows="lineCount"
+        dense
+        style="text-align: right;"
+      ></v-textarea>
+    </v-row>
+    <v-card
+      class="mb-10 text-right mx-6"
       height="20px"
       elevation="0"
       color="grey"
@@ -132,12 +556,30 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Document',
   data: () => ({
-    test: { firstname: 'foo', lastname: 'bar', pet: ['dog', 'ant', 'cat'] },
+    responses: {
+      response: '{\n' + '        "firstname": "foo",\n' + '        "lastname": "bar"\n' + '    }',
+      description: 'Loading....'
+    },
+    responseExample: '{\n' + '        "firstname": "foo",\n' + '        "lastname": "bar"\n' + '    }',
     documents: [
-      { name: 'Description', edit: false },
-      { name: 'Feature', edit: false }
+      { name: 'Description', edit: false }
     ],
-    description: 'It allows developers to test their code and applications without having to set up a real login system or connect to a production database. The mockup login API typically returns predetermined responses for various input scenarios, allowing developers to test how their code handles different types of responses. Some mockup login APIs may even allow developers to customize the responses that are returned, allowing for more comprehensive testing.'
+    features: [
+      { no: 1, value: 'Loading....\nTest' },
+      { no: 2, value: 'Loading....' },
+      { no: 3, value: 'Loading....' },
+      { no: 4, value: 'Loading....' },
+      { no: 5, value: 'Loading....' }
+    ],
+    usages: [
+      { name: 'URL', active: true },
+      { name: 'Method', active: true },
+      { name: 'Query Params', active: true },
+      { name: 'Path Variables', active: true },
+      { name: 'Headers', active: true },
+      { name: 'Body (form-data)', active: true },
+      { name: 'Body (json)', active: true }
+    ]
   }),
   methods: {
     tab (e) {
@@ -146,6 +588,12 @@ export default {
       const end = e.target.selectionEnd
       e.target.value = e.target.value.substring(0, start) + '\t' + e.target.value.substring(end)
       e.target.selectionStart = e.target.selectionEnd = start + 1
+    },
+    addFeature () {
+      this.features.push({ no: this.features.length + 1, value: '' })
+    },
+    deleteFeature (index) {
+      this.features.splice(index, 1)
     }
   },
   computed: {
@@ -164,8 +612,13 @@ export default {
       }
       return number
     },
-    response () {
-      return JSON.stringify(this.test, null, 8)
+    response: {
+      get () {
+        return this.responseExample
+      },
+      set (value) {
+        this.responseExample = value
+      }
     }
   }
 }

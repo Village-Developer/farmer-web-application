@@ -37,7 +37,7 @@
                     class="text-h6 font-weight-regular pl-0 mr-2"
                     dense
                     solo
-                    :background-color="!getMode ? '' : 'blue-grey lighten-4'"
+                    :background-color="!getMode ? '' : ''"
                     :flat="!getMode"
                     :readonly="!getMode"
                     :value="getApiDetail.name"
@@ -123,6 +123,7 @@
     <v-dialog
       v-model="confirmChangeDialog"
       max-width="500px"
+      persistent
     >
       <v-card
       >
